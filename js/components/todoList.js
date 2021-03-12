@@ -1,8 +1,9 @@
 const todoListTemplate = document.createElement('template');
 todoListTemplate.innerHTML = `
+  <link rel="stylesheet" href="css/todo-list.css"></link>
   <todo-form></todo-form>
-  <div class="todos-container">
-  </div>
+  <ul class="todo-list">
+  </ul>
 `;
 
 class TodoList extends HTMLElement {
@@ -32,7 +33,7 @@ class TodoList extends HTMLElement {
     const newTodo = document.createElement('todo-item');
     newTodo.setAttribute('text', ev.detail.todo);
     newTodo.setAttribute('completed', false);
-    this.shadowRoot.querySelector('.todos-container').appendChild(newTodo);
+    this.shadowRoot.querySelector('.todo-list').appendChild(newTodo);
   };
 }
 

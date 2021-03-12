@@ -2,13 +2,13 @@ const todoItemTemplate = document.createElement('template');
 todoItemTemplate.innerHTML = `
   <link rel="stylesheet" href="css/todo-item.css"></link>
   <link rel="stylesheet" href="css/reset.css"></link>
-  <div class="todo-card">
+  <li class="todo-card">
     <h2 class="todo-text"></h2>
     <div class="todo-controls">
       <button class="toggle-todo-btn">u<button>
       <button class="delete-todo-btn">Delete<button>
     </div>
-  <div>
+  </li>
 `;
 
 class TodoItem extends HTMLElement {
