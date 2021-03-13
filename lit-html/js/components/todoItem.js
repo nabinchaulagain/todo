@@ -12,7 +12,6 @@ class TodoItem extends HTMLElement {
   /** when attached to dom */
   connectedCallback() {
     this.render();
-    this.attachEventListeners();
   }
 
   /** load attributes as properties */
@@ -20,17 +19,6 @@ class TodoItem extends HTMLElement {
     this.todoId = parseInt(this.getAttribute('todoId'));
     this.isCompleted = this.hasAttribute('completed');
     this.todoText = this.getAttribute('text');
-  }
-
-  /** add event listeners to toggle and delete button */
-  attachEventListeners() {
-    this.shadowRoot
-      .querySelector('.toggle-todo-btn')
-      .addEventListener('click', this.handleToggle);
-
-    this.shadowRoot
-      .querySelector('.delete-todo-btn')
-      .addEventListener('click', this.handleDelete);
   }
 
   /** render html on the component */
@@ -43,10 +31,12 @@ class TodoItem extends HTMLElement {
           ${this.todoText}
         </h2>
         <div class="todo-controls">
-          <button class="toggle-todo-btn">
+          <button @click=${this.handleToggle} class="toggle-todo-btn">
             Mark as ${this.isCompleted ? 'incomplete' : 'complete'}
           </button>
-          <button class="delete-todo-btn">Delete</button>
+          <button @click=${this.handleDelete} class="delete-todo-btn">
+           Delete
+          </button>
         </div>
       </li>
     `;
@@ -62,17 +52,6 @@ class TodoItem extends HTMLElement {
   /** delete todo item */
   handleDelete() {
     this.dispatchEvent(makeTodoDeleteEvent(this.todoId));
-  }
-
-  /** when detached from dom */
-  disconnectedCallback() {
-    this.shadowRoot
-      .querySelector('.toggle-todo-btn')
-      .removeEventListener('click', this.handleToggle);
-
-    this.shadowRoot
-      .querySelector('.delete-todo-btn')
-      .removeEventListener('click', this.handleDelete);
   }
 }
 

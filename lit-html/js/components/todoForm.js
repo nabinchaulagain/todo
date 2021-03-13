@@ -9,18 +9,6 @@ class TodoForm extends HTMLElement {
     this.render();
   }
 
-  /** when attached to dom */
-  connectedCallback() {
-    this.shadowRoot
-      .querySelector('form')
-      .addEventListener('submit', this.handleSubmit);
-  }
-
-  /** when detached from dom */
-  disconnectedCallback() {
-    this.removeEventListener('submit', this.handleSubmit);
-  }
-
   /**
    * handle submit on form
    * @param {Event} ev - submit event on form
@@ -65,7 +53,7 @@ class TodoForm extends HTMLElement {
   render() {
     const template = html`
       <link rel="stylesheet" href="css/todo-form.css"></link>
-      <form>
+      <form @submit=${this.handleSubmit}>
         <div class="input-container">
           <input type="text" class="todo-input" placeholder="Enter todo" />
           ${this.error && html`<div class="input-error">${this.error}</div>`}

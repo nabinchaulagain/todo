@@ -7,27 +7,10 @@ class TodoList extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.todos = [];
-    this.render();
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
     this.toggleTodo = this.toggleTodo.bind(this);
-  }
-
-  /** when attached to dom */
-  connectedCallback() {
-    this.shadowRoot
-      .querySelector('todo-form')
-      .addEventListener('addTodo', this.addTodo);
-
-    this.shadowRoot.addEventListener('toggleTodo', this.toggleTodo);
-    this.shadowRoot.addEventListener('deleteTodo', this.deleteTodo);
-  }
-
-  /** when detached from dom */
-  disconnectedCallback() {
-    this.shadowRoot
-      .querySelector('todo-form')
-      .removeEventListener('addTodo', this.addTodo);
+    this.render();
   }
 
   /**
@@ -70,8 +53,12 @@ class TodoList extends HTMLElement {
   render() {
     const template = html`
       <link rel="stylesheet" href="css/todo-list.css"></link>
-      <todo-form></todo-form>
-      <ul class="todo-list">
+      <todo-form @addTodo=${this.addTodo}></todo-form>
+      <ul 
+      class="todo-list"
+      @toggleTodo=${this.toggleTodo}
+      @deleteTodo=${this.deleteTodo}
+      >
         ${repeat(
           this.todos,
           (todo) => todo.id,
