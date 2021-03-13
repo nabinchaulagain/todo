@@ -1,0 +1,21 @@
+form {
+  text-align: center;
+}
+
+.todo-input {
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  padding: 8px 4px;
+  font-size: 16px;
+}
+
+.submit-todo-btn {
+  font-size: 20px;
+}
+
+.input-container .input-error {
+  color: #ff0000;
+  margin-top: -4px;
+  font-size: 16px;
+}
