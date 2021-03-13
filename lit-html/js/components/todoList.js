@@ -69,8 +69,9 @@ class TodoList extends HTMLElement {
   /** render template */
   render() {
     const template = html`
+      <link rel="stylesheet" href="css/todo-list.css"></link>
       <todo-form></todo-form>
-      <ul>
+      <ul class="todo-list">
         ${repeat(
           this.todos,
           (todo) => todo.id,

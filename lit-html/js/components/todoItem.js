@@ -7,11 +7,11 @@ class TodoItem extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.handleDelete = this.handleDelete.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
-    this.render();
   }
 
   /** when attached to dom */
   connectedCallback() {
+    this.render();
     this.attachEventListeners();
   }
 
@@ -37,6 +37,7 @@ class TodoItem extends HTMLElement {
   render() {
     this.getDataFromAttribs();
     const template = html`
+      <link rel="stylesheet" href="css/todo-item.css"></link>
       <li class="todo-card">
         <h2 class="todo-text ${this.isCompleted ? 'completed' : ''}">
           ${this.todoText}

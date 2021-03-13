@@ -64,6 +64,7 @@ class TodoForm extends HTMLElement {
 
   render() {
     const template = html`
+      <link rel="stylesheet" href="css/todo-form.css"></link>
       <form>
         <div class="input-container">
           <input type="text" class="todo-input" placeholder="Enter todo" />
