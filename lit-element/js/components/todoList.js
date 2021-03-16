@@ -2,8 +2,11 @@ import { LitElement, html, css } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import generateId from '../utils/generateId';
 
+import './todoForm';
+import './todoItem';
+
 class TodoList extends LitElement {
-  /** properites of component */
+  /** properties of component */
   static get properties() {
     return {
       /**
@@ -17,6 +20,10 @@ class TodoList extends LitElement {
   /** component css */
   static get styles() {
     return css`
+      .root {
+        max-width: 600px;
+        margin: auto;
+      }
       .todo-list {
         list-style: none;
       }
@@ -32,27 +39,27 @@ class TodoList extends LitElement {
   }
 
   /**
-   * handler for addTodo event raised by todoForm component
-   * @param {CustomEvent} ev - custom add todo event
+   * add todo to state
+   * @param {String} text - todo text
    */
-  addTodo(ev) {
+  addTodo(text) {
     this.todos = [
       ...this.todos,
       {
         id: generateId(this.todos),
-        text: ev.detail.todo,
+        text,
         completed: false,
       },
     ];
   }
 
   /**
-   * handler for toggleTodo event
-   * @param {CustomEvent} ev - custom toggle todo event
+   * toggle todo completion status
+   * @param {Number} id - id of todo to toggle
    */
-  toggleTodo(ev) {
+  toggleTodo(id) {
     this.todos = this.todos.map((todo) => {
-      if (todo.id === ev.detail.id) {
+      if (todo.id === id) {
         return { ...todo, completed: !todo.completed };
       }
       return { ...todo };
@@ -60,33 +67,33 @@ class TodoList extends LitElement {
   }
 
   /**
-   * handler for deleteTodo event
-   * @param {CustomEvent} ev - cutsom delete todo event
+   * delete todo from state
+   * @param {Number} id - id of todo to delete
    */
-  deleteTodo(ev) {
-    this.todos = this.todos.filter((todo) => todo.id !== ev.detail.id);
+  deleteTodo(id) {
+    this.todos = this.todos.filter((todo) => todo.id !== id);
   }
 
   /** render template */
   render() {
     return html`
-      <todo-form @addTodo=${this.addTodo}></todo-form>
-      <ul
-        class="todo-list"
-        @toggleTodo=${this.toggleTodo}
-        @deleteTodo=${this.deleteTodo}
-      >
-        ${repeat(
-          this.todos,
-          (todo) => todo.id,
-          (todo) => html`<todo-item
-            id=${todo.id}
-            todoId=${todo.id}
-            text=${todo.text}
-            ?isCompleted=${todo.completed}
-          ></todo-item>`
-        )}
-      </ul>
+      <div class="root">
+        <todo-form .onAdd=${this.addTodo}></todo-form>
+        <ul class="todo-list">
+          ${repeat(
+            this.todos,
+            (todo) => todo.id,
+            (todo) => html`<todo-item
+              .id=${todo.id}
+              .todoId=${todo.id}
+              .text=${todo.text}
+              ?isCompleted=${todo.completed}
+              .onToggle=${this.toggleTodo}
+              .onDelete=${this.deleteTodo}
+            ></todo-item>`
+          )}
+        </ul>
+      </div>
     `;
   }
 }

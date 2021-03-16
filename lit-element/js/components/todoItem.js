@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element';
-import { makeTodoDeleteEvent, makeTodoToggleEvent } from '../utils/events';
 
 class TodoItem extends LitElement {
   /** properties of component */
@@ -23,6 +22,18 @@ class TodoItem extends LitElement {
        * @type {String}
        */
       text: { type: String },
+      /**
+       * function to run when toggle happens
+       * passed from parent
+       * @type {Function}
+       */
+      onToggle: { type: Function },
+      /**
+       * function to run when delete happens
+       * passed from parent
+       * @type {Function}
+       */
+      onDelete: { type: Function },
     };
   }
 
@@ -34,8 +45,9 @@ class TodoItem extends LitElement {
         padding: 0;
         box-sizing: border-box;
       }
+
       .todo-card {
-        background: #ffffff;
+        background: #dddddd;
         margin: 10px 0;
         padding: 4px 0;
         border-radius: 10px;
@@ -80,12 +92,12 @@ class TodoItem extends LitElement {
 
   /** toggle todo item completion status*/
   handleToggle() {
-    this.dispatchEvent(makeTodoToggleEvent(this.todoId));
+    this.onToggle(this.todoId);
   }
 
   /** delete todo item */
   handleDelete() {
-    this.dispatchEvent(makeTodoDeleteEvent(this.todoId));
+    this.onDelete(this.todoId);
   }
 }
 

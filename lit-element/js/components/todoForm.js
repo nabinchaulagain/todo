@@ -1,8 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
-import { makeTodoAddEvent } from '../utils/events';
 
 class TodoForm extends LitElement {
-  /** properites of component */
+  /** properties of component */
   static get properties() {
     return {
       /**
@@ -10,6 +9,11 @@ class TodoForm extends LitElement {
        * @type {String | undefined}
        */
       error: { type: String },
+      /**
+       * function to execute when todo is added
+       * @type {Function}
+       */
+      onAdd: { type: Function },
     };
   }
 
@@ -43,6 +47,7 @@ class TodoForm extends LitElement {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    window.ss = this;
   }
 
   /**
@@ -56,7 +61,7 @@ class TodoForm extends LitElement {
     if (hasError) {
       this.error = error;
     } else {
-      this.dispatchAddTodoEvent();
+      this.onAdd(inputEl.value);
       inputEl.value = '';
       this.error = null;
     }
@@ -70,7 +75,7 @@ class TodoForm extends LitElement {
 
   /**
    * validate todo input
-   * @param {string} value - value of input fieldi
+   * @param {string} value - value of input field
    * @returns {{ hasError: boolean, error:string|undefined }} object that contains hasError and error properties
    */
   validate(value) {
