@@ -70,6 +70,9 @@ class TodoItem extends LitElement {
     super();
     this.handleDelete = this.handleDelete.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+
+    this.onToggle = () => {};
+    this.onDelete = () => {};
   }
 
   /** render html of the component */

@@ -6,7 +6,7 @@ class TodoForm extends LitElement {
     return {
       /**
        * form error
-       * @type {String | undefined}
+       * @type {String | null}
        */
       error: { type: String },
       /**
@@ -52,7 +52,11 @@ class TodoForm extends LitElement {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+
     this.input = '';
+    this.error = null;
+    this.onAdd = () => {};
   }
 
   /**
@@ -69,6 +73,10 @@ class TodoForm extends LitElement {
       this.input = '';
       this.error = null;
     }
+  }
+
+  handleInputChange(ev) {
+    this.input = ev.target.value;
   }
 
   /**
@@ -97,9 +105,7 @@ class TodoForm extends LitElement {
           <input
             type="text"
             class="todo-input"
-            @change=${(ev) => {
-              this.input = ev.target.value;
-            }}
+            @change=${this.handleInputChange}
             .value="${this.input}"
           />
           ${this.error && html`<div class="input-error">${this.error}</div>`}

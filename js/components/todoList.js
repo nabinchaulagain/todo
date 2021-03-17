@@ -62,7 +62,7 @@ class TodoList extends LitElement {
       if (todo.id === id) {
         return { ...todo, completed: !todo.completed };
       }
-      return { ...todo };
+      return todo;
     });
   }
 
