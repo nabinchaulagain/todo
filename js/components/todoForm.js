@@ -14,6 +14,11 @@ class TodoForm extends LitElement {
        * @type {Function}
        */
       onAdd: { type: Function },
+      /**
+       * input text
+       * @type {String}
+       */
+      input: { type: String },
     };
   }
 
@@ -47,6 +52,7 @@ class TodoForm extends LitElement {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.input = '';
   }
 
   /**
@@ -55,21 +61,14 @@ class TodoForm extends LitElement {
    */
   handleSubmit(ev) {
     ev.preventDefault();
-    const inputEl = this.shadowRoot.querySelector('.todo-input');
-    const { error, hasError } = this.validate(inputEl.value);
+    const { error, hasError } = this.validate();
     if (hasError) {
       this.error = error;
     } else {
-      this.onAdd(inputEl.value);
-      inputEl.value = '';
+      this.onAdd(this.input);
+      this.input = '';
       this.error = null;
     }
-  }
-
-  /** add todo item */
-  dispatchAddTodoEvent() {
-    const todoVal = this.shadowRoot.querySelector('.todo-input').value;
-    this.dispatchEvent(makeTodoAddEvent(todoVal));
   }
 
   /**
@@ -77,7 +76,8 @@ class TodoForm extends LitElement {
    * @param {string} value - value of input field
    * @returns {{ hasError: boolean, error:string|undefined }} object that contains hasError and error properties
    */
-  validate(value) {
+  validate() {
+    const value = this.input;
     if (!value) {
       return { hasError: true, error: 'Todo is required' };
     } else if (value.length < 3) {
@@ -94,7 +94,14 @@ class TodoForm extends LitElement {
     return html`
       <form @submit=${this.handleSubmit}>
         <div class="input-container">
-          <input type="text" class="todo-input" placeholder="Enter todo" />
+          <input
+            type="text"
+            class="todo-input"
+            @change=${(ev) => {
+              this.input = ev.target.value;
+            }}
+            .value="${this.input}"
+          />
           ${this.error && html`<div class="input-error">${this.error}</div>`}
         </div>
         <input type="submit" value="Add Todo" class="submit-todo-btn" />
