@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 
 class TodoItem extends LitElement {
   /** properties of component */
@@ -75,7 +76,7 @@ class TodoItem extends LitElement {
   render() {
     return html`
       <li class="todo-card">
-        <h2 class="todo-text ${this.isCompleted ? 'completed' : ''}">
+        <h2 class="todo-text ${classMap({ completed: this.isCompleted })}">
           ${this.text}
         </h2>
         <div class="todo-controls">

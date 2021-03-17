@@ -47,7 +47,6 @@ class TodoForm extends LitElement {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
-    window.ss = this;
   }
 
   /**
